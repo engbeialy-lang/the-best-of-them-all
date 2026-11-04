@@ -1,0 +1,9 @@
+streamlit
+pandas
+matplotlib
+requests
+deep-translator
+groq
+pypdf
+Pillow
+pytesseract
