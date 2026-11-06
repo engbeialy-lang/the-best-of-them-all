@@ -6,7 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import io, re, json, html, ast, operator
 from datetime import date
-from deep_translator import GoogleTranslator
 from groq import Groq
 
 try:
@@ -178,55 +177,84 @@ div.stButton > button:hover {
     color: white;
 }
 
-/* TEXT INPUTS AND PYTHON EDITOR */
-
-.stTextArea textarea,
+/* ALL INPUTS - CONSISTENT DARK THEME */
 .stTextInput input,
+.stTextArea textarea,
+[data-testid="stTextInput"] input,
 [data-testid="stTextArea"] textarea,
-[data-testid="stTextInput"] input {
-    background: #ffffff !important;
-    color: #202434 !important;
-    -webkit-text-fill-color: #202434 !important;
-    caret-color: #202434 !important;
-    border: 1px solid #aeb8cc !important;
-    border-radius: 8px !important;
+[data-testid="stNumberInput"] input,
+[data-testid="stDateInput"] input,
+[data-testid="stChatInput"] textarea,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea {
+    background-color: #111827 !important;
+    color: #f5f6ff !important;
+    -webkit-text-fill-color: #f5f6ff !important;
+    caret-color: #a99cff !important;
+    border: 1px solid #55558f !important;
+    border-radius: 9px !important;
 }
 
+.stTextInput input::placeholder,
 .stTextArea textarea::placeholder,
-.stTextInput input::placeholder {
-    color: #687386 !important;
-    -webkit-text-fill-color: #687386 !important;
+[data-testid="stChatInput"] textarea::placeholder {
+    color: #aab5d0 !important;
+    -webkit-text-fill-color: #aab5d0 !important;
     opacity: 1 !important;
 }
 
-/* DROPDOWNS AND DATE FIELDS */
-
+/* SELECTBOXES, MULTISELECTS AND DATE CONTROLS */
 [data-baseweb="select"] > div,
-[data-testid="stNumberInput"] input,
-[data-testid="stDateInput"] input {
-    background: #ffffff !important;
-    color: #202434 !important;
-    -webkit-text-fill-color: #202434 !important;
+[data-testid="stDateInput"] > div > div,
+[data-testid="stNumberInput"] button {
+    background-color: #111827 !important;
+    color: #f5f6ff !important;
+    border-color: #55558f !important;
 }
 
 [data-baseweb="select"] input,
-[data-baseweb="select"] span {
-    color: #202434 !important;
-    -webkit-text-fill-color: #202434 !important;
+[data-baseweb="select"] span,
+[data-baseweb="select"] div {
+    color: #f5f6ff !important;
+    -webkit-text-fill-color: #f5f6ff !important;
 }
 
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+[data-baseweb="menu"] ul,
 [data-baseweb="popover"] [role="option"] {
-    color: #202434 !important;
-    background: #ffffff !important;
+    background-color: #111827 !important;
+    color: #f5f6ff !important;
+}
+
+[data-baseweb="popover"] [role="option"]:hover {
+    background-color: #252650 !important;
+}
+
+/* CHECKBOXES, RADIO BUTTONS AND SLIDERS */
+[data-testid="stCheckbox"],
+[data-testid="stRadio"],
+[data-testid="stSlider"],
+[data-testid="stDateInput"],
+[data-testid="stNumberInput"] {
+    color: #f5f6ff !important;
 }
 
 /* CODE OUTPUT */
-
 [data-testid="stCodeBlock"] pre,
 [data-testid="stCodeBlock"] code {
-    background: #f3f5f9 !important;
-    color: #202434 !important;
-    -webkit-text-fill-color: #202434 !important;
+    background-color: #111827 !important;
+    color: #f5f6ff !important;
+    -webkit-text-fill-color: #f5f6ff !important;
+}
+
+/* DOWNLOAD BUTTONS */
+[data-testid="stDownloadButton"] button {
+    background-color: #252650 !important;
+    color: #ffffff !important;
+    border: 1px solid #55558f !important;
+    border-radius: 10px !important;
 }
 
 </style>''', unsafe_allow_html=True)
@@ -717,66 +745,219 @@ draw();
 
 LANGUAGES = {
     "Auto Detect": "auto",
-    "English": "en",
     "Arabic": "ar",
-    "French": "fr",
+    "English": "en",
     "Spanish": "es",
+    "French": "fr",
     "German": "de",
     "Italian": "it",
-    "Turkish": "tr",
+    "Portuguese": "pt",
+    "Russian": "ru",
     "Chinese": "zh-CN",
     "Japanese": "ja",
-    "Russian": "ru",
-    "Portuguese": "pt",
-    "Hindi": "hi",
     "Korean": "ko",
+    "Hindi": "hi",
+    "Urdu": "ur",
+    "Persian": "fa",
+    "Turkish": "tr",
     "Dutch": "nl",
-    "Urdu": "ur"
+    "Greek": "el",
+    "Hebrew": "iw",
+    "Polish": "pl",
+    "Swedish": "sv",
+    "Norwegian": "no",
+    "Danish": "da",
+    "Finnish": "fi",
+    "Czech": "cs",
+    "Slovak": "sk",
+    "Hungarian": "hu",
+    "Romanian": "ro",
+    "Bulgarian": "bg",
+    "Ukrainian": "uk",
+    "Serbian": "sr",
+    "Croatian": "hr",
+    "Slovenian": "sl",
+    "Estonian": "et",
+    "Latvian": "lv",
+    "Lithuanian": "lt",
+    "Icelandic": "is",
+    "Irish": "ga",
+    "Welsh": "cy",
+    "Albanian": "sq",
+    "Macedonian": "mk",
+    "Maltese": "mt",
+    "Vietnamese": "vi",
+    "Thai": "th",
+    "Indonesian": "id",
+    "Malay": "ms",
+    "Filipino": "tl",
+    "Bengali": "bn",
+    "Tamil": "ta",
+    "Telugu": "te",
+    "Marathi": "mr",
+    "Gujarati": "gu",
+    "Punjabi": "pa",
+    "Kannada": "kn",
+    "Malayalam": "ml",
+    "Nepali": "ne",
+    "Swahili": "sw",
+    "Afrikaans": "af",
+    "Amharic": "am",
+    "Somali": "so",
+    "Zulu": "zu",
+    "Yoruba": "yo",
+    "Latin": "la",
+    "Esperanto": "eo",
+    "Georgian": "ka",
+    "Armenian": "hy",
+    "Azerbaijani": "az",
+    "Kazakh": "kk",
+    "Uzbek": "uz",
+    "Mongolian": "mn",
+    "Cambodian": "km",
+    "Burmese": "my",
+    "Lao": "lo"
 }
+
+
+def translate_text_in_chunks(text, source, target, max_chars=2500):
+    """Translate text with the existing Groq client, in manageable chunks."""
+
+    if not text or not text.strip():
+        return ""
+
+    source_name = next(
+        (name for name, code in LANGUAGES.items() if code == source),
+        "Auto Detect" if source == "auto" else source
+    )
+    target_name = next(
+        (name for name, code in LANGUAGES.items() if code == target),
+        target
+    )
+
+    chunks = []
+    remaining = text.strip()
+
+    while len(remaining) > max_chars:
+        cut = remaining.rfind("\n", 0, max_chars)
+        if cut < max_chars // 2:
+            cut = remaining.rfind(" ", 0, max_chars)
+        if cut < max_chars // 2:
+            cut = max_chars
+
+        chunks.append(remaining[:cut].strip())
+        remaining = remaining[cut:].strip()
+
+    if remaining:
+        chunks.append(remaining)
+
+    translated = []
+
+    for index, chunk in enumerate(chunks, start=1):
+        prompt = f"""Translate the text below.
+
+Source language: {source_name}
+Target language: {target_name}
+
+Requirements:
+- If the source language is Auto Detect, identify it automatically.
+- Translate accurately and naturally into {target_name}.
+- Preserve the complete meaning, names, numbers, and paragraph structure.
+- Do not summarize, explain, or add comments.
+- Return only the translated text.
+
+Text:
+{chunk}
+"""
+
+        result = ask_groq(
+            prompt,
+            system="You are a professional multilingual translator. Translate faithfully and return only the translation.",
+            max_tokens=3000
+        )
+
+        if not result or not result.strip():
+            raise RuntimeError(f"Groq returned an empty translation for part {index}.")
+
+        translated.append(result.strip())
+
+    return "\n\n".join(translated)
 
 
 def render_translator():
     st.markdown("## 🌍 Translator App")
+    st.write("Translate text between more than 70 languages using AI.")
 
-    c1, c2 = st.columns(2)
+    source_options = list(LANGUAGES.keys())
+    target_options = [name for name in LANGUAGES if name != "Auto Detect"]
 
-    with c1:
-        source = st.selectbox("From", list(LANGUAGES.keys()))
+    col1, col2 = st.columns(2)
 
-    with c2:
-        target = st.selectbox(
-            "To",
-            [x for x in LANGUAGES if x != "Auto Detect"],
-            index=1
+    with col1:
+        source_lang = st.selectbox(
+            "Select source language",
+            source_options,
+            index=source_options.index("English"),
+            key="translator_source_language"
         )
 
-    text = st.text_area("Enter text", height=180)
+    with col2:
+        target_lang = st.selectbox(
+            "Select target language",
+            target_options,
+            index=target_options.index("Arabic"),
+            key="translator_target_language"
+        )
 
-    if st.button("Translate"):
-        if not text.strip():
-            st.warning("Enter text first.")
+    source_text = st.text_area(
+        "Enter your text here",
+        height=180,
+        placeholder="Type or paste the text you want to translate...",
+        key="translator_source_text"
+    )
+
+    if st.button(
+        "🌍 Translate",
+        key="translator_submit",
+        use_container_width=True
+    ):
+        if not source_text.strip():
+            st.warning("Enter your text first.")
+        elif source_lang != "Auto Detect" and source_lang == target_lang:
+            st.warning("Please select two different languages.")
         else:
             try:
-                st.session_state.translation_result = GoogleTranslator(
-                    source=LANGUAGES[source],
-                    target=LANGUAGES[target]
-                ).translate(text)
+                with st.spinner("Translating with CODEleader AI..."):
+                    st.session_state.translation_result = translate_text_in_chunks(
+                        source_text.strip(),
+                        LANGUAGES[source_lang],
+                        LANGUAGES[target_lang]
+                    )
+                st.success("Translation completed successfully.")
             except Exception as e:
+                st.session_state.translation_result = ""
                 st.error(f"Translation failed: {e}")
 
-    if st.session_state.translation_result:
+    if st.session_state.get("translation_result"):
+        st.subheader("Translation")
         st.text_area(
             "Translated text",
             value=st.session_state.translation_result,
-            height=180
+            height=180,
+            key="translator_result_text",
+            disabled=True
         )
-
         st.download_button(
-            "Download Translation",
-            st.session_state.translation_result,
-            file_name="translation.txt"
+            "⬇ Download Translation",
+            data=st.session_state.translation_result,
+            file_name="translation.txt",
+            mime="text/plain",
+            key="translator_download",
+            use_container_width=True
         )
 
+    st.markdown("---")
+    st.caption("Made with Mazen Ahmed Beialy")
 
 # 4 SUMMARIZER
 
@@ -1379,21 +1560,18 @@ def render_python_playground():
 
     examples = {
         "Hello World": "print('Hello, world!')",
-
         "Variables": (
             "name = 'CODEleader'\n"
             "age = 12\n"
             "print('Welcome', name)\n"
             "print('Age:', age)"
         ),
-
         "Math Operations": (
             "a = 12\n"
             "b = 5\n"
             "print(a + b)\n"
             "print(a * b)"
         ),
-
         "Simple Calculation": (
             "price = 25\n"
             "quantity = 4\n"
@@ -1401,20 +1579,32 @@ def render_python_playground():
         )
     }
 
+    # Keep the editor's value in one session-state key.
+    if "python_editor" not in st.session_state:
+        st.session_state.python_editor = st.session_state.get(
+            "python_code", "print('Hello, CODEleader!')"
+        )
+
     choice = st.selectbox(
         "Load an example",
-        ["Choose an example"] + list(examples.keys())
+        ["Choose an example"] + list(examples.keys()),
+        key="python_example_choice"
     )
 
-    if choice != "Choose an example":
-        st.session_state.python_code = examples[choice]
+    # Load a selected example only once, before creating the text-area widget.
+    if (
+        choice != "Choose an example"
+        and st.session_state.get("python_example_loaded") != choice
+    ):
+        st.session_state.python_editor = examples[choice]
+        st.session_state.python_example_loaded = choice
 
-    st.session_state.python_code = st.text_area(
+    code = st.text_area(
         "Python Editor",
-        value=st.session_state.python_code,
         height=260,
         key="python_editor"
     )
+    st.session_state.python_code = code
 
     c1, c2 = st.columns(2)
 
@@ -1422,16 +1612,14 @@ def render_python_playground():
         if st.button("▶ Run Code", use_container_width=True):
             try:
                 with st.spinner("Running your example..."):
-                    st.session_state.python_output = safe_python_run(
-                        st.session_state.python_code
-                    )
+                    st.session_state.python_output = safe_python_run(code)
             except Exception as e:
                 st.session_state.python_output = f"Error: {e}"
 
     with c2:
         st.download_button(
             "⬇ Download .py",
-            st.session_state.python_code,
+            code,
             file_name="my_python_code.py",
             mime="text/x-python",
             use_container_width=True
